@@ -171,7 +171,7 @@ inline fun <reified T>PropertyView(accm: ConfigurationModal<T>, activity: Compon
                 verticalAlignment = Alignment.CenterVertically
 
             ) {
-                accm?.javaClass?.let {
+                accm.javaClass?.let {
                     Text(
                         text = it.simpleName,
                         color = Color(0xFFFDD835),
@@ -190,7 +190,7 @@ inline fun <reified T>PropertyView(accm: ConfigurationModal<T>, activity: Compon
 
 
             ) {
-                accm?.let {
+                accm.let {
                     if(isEdit.value){
                         mySpinner(
                             "",
@@ -219,7 +219,7 @@ inline fun <reified T>PropertyView(accm: ConfigurationModal<T>, activity: Compon
 
                 }
 
-                accm?.let {
+                accm.let {
                     Text(
                         text = "${ it.getDefaultValue() }",
                         textAlign = TextAlign.Right,

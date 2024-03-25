@@ -16,7 +16,7 @@ object JobExecutor {
     private val coroutineExceptionHandler =
         CoroutineExceptionHandler { coroutineContext, exception ->
             exception.printStackTrace()
-            callback?.invoke(Pair(null, exception))
+            callback.invoke(Pair(null, exception))
         }
     val dispatcher = Executors
         .newFixedThreadPool(20)

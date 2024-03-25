@@ -16,7 +16,7 @@ data class LockKick (
   val TAG = "LockKick"
   private var kick  = default
 
-  override fun getValue(sharedPreferences: SharedPreferences): String? {
+  override fun getValue(sharedPreferences: SharedPreferences): String {
     this.kick = sharedPreferences.getString(TAG, default)!!
     return this.kick
   }

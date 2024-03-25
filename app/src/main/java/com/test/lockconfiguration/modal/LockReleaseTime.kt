@@ -18,7 +18,7 @@ data class LockReleaseTime (
   private var time = default
 
   override fun getValue(sharedPreferences: SharedPreferences): Double {
-    this.time = sharedPreferences.getFloat(TAG, default.toFloat())!!.toString().toDouble()
+    this.time = sharedPreferences.getFloat(TAG, default.toFloat()).toString().toDouble()
 
     return this.time
   }

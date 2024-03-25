@@ -18,8 +18,8 @@ data class LockAngle (
   val TAG = "LockAngle"
   private var angle = default
 
-  override fun getValue(sharedPreferences: SharedPreferences): Double? {
-    this.angle = sharedPreferences.getFloat(TAG, default.toFloat())!!.toString().toDouble()
+  override fun getValue(sharedPreferences: SharedPreferences): Double {
+    this.angle = sharedPreferences.getFloat(TAG, default.toFloat()).toString().toDouble()
 
     return this.angle
   }
