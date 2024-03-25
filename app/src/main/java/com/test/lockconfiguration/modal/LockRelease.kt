@@ -8,35 +8,38 @@ import androidx.compose.runtime.remember
 import com.google.gson.annotations.SerializedName
 
 
-data class LockRelease (
-  @SerializedName("values"  ) var values  : ArrayList<String> = arrayListOf(),
-  @SerializedName("default" ) var default : String           = "",
-  @SerializedName("common"  ) var common  : Boolean?          = null
+data class LockRelease(
+    @SerializedName("values") var values: ArrayList<String> = arrayListOf(),
+    @SerializedName("default") var default: String = "",
+    @SerializedName("common") var common: Boolean? = null
 
 ) : ConfigurationModal<String> {
-  val TAG = "LockRelease"
-  private var release = default
+    val TAG = "LockRelease"
+    private var release = default
 
-  override fun getValue(sharedPreferences: SharedPreferences): String {
-    this.release = sharedPreferences.getString(TAG, default)!!
-    return this.release
-  }
+    override fun getValue(sharedPreferences: SharedPreferences): String {
+        this.release = sharedPreferences.getString(TAG, default)!!
+        return this.release
+    }
 
-  override fun getValues(): List<String> {
-    return values
-  }
+    override fun getValues(): List<String> {
+        return values
+    }
 
-  override fun getDefaultValue(): String = default
+    override fun getDefaultValue(): String = default
 
-  @Composable
-  override fun setValue(value: String, sharedPreferences: SharedPreferences) : MutableState<String> {
-    sharedPreferences.edit().putString(TAG, value).apply()
-    this.release = value
-    var state = remember { mutableStateOf(this.release) }
-    return state
-  }
+    @Composable
+    override fun setValue(
+        value: String,
+        sharedPreferences: SharedPreferences
+    ): MutableState<String> {
+        sharedPreferences.edit().putString(TAG, value).apply()
+        this.release = value
+        var state = remember { mutableStateOf(this.release) }
+        return state
+    }
 
-  override fun toString(): String {
-    return this.release
-  }
+    override fun toString(): String {
+        return this.release
+    }
 }

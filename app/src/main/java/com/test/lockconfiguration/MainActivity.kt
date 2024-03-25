@@ -23,7 +23,6 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.TopAppBarDefaults.topAppBarColors
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -87,12 +86,16 @@ class MainActivity : ComponentActivity() {
                 Spacer(modifier = Modifier.padding(15.dp))
                 PropertyTitleBarView()
 
-                if(dataAccessControlConfiguration.value.lockAngle != null) {
+                if (dataAccessControlConfiguration.value.lockAngle != null) {
                     LazyColumn {
-                        items(dataAccessControlConfiguration::class.java.declaredFields.size ) {
+                        items(dataAccessControlConfiguration::class.java.declaredFields.size) {
                             when (it) { //TODO to be handled in better way
                                 1 -> {
-                                    if(searchQuery.value.isEmpty() || searchQuery.value.contains("LockVoltage", true)) {
+                                    if (searchQuery.value.isEmpty() || searchQuery.value.contains(
+                                            "LockVoltage",
+                                            true
+                                        )
+                                    ) {
                                         PropertyView(
                                             dataAccessControlConfiguration.value.lockVoltage!!,
                                             this@MainActivity
@@ -101,7 +104,11 @@ class MainActivity : ComponentActivity() {
                                 }
 
                                 2 -> {
-                                    if(searchQuery.value.isEmpty() || searchQuery.value.contains("LockKick", true)) {
+                                    if (searchQuery.value.isEmpty() || searchQuery.value.contains(
+                                            "LockKick",
+                                            true
+                                        )
+                                    ) {
                                         PropertyView(
                                             dataAccessControlConfiguration.value.lockKick!!,
                                             this@MainActivity
@@ -110,7 +117,11 @@ class MainActivity : ComponentActivity() {
                                 }
 
                                 3 -> {
-                                    if(searchQuery.value.isEmpty() || searchQuery.value.contains("LockRelease", true)) {
+                                    if (searchQuery.value.isEmpty() || searchQuery.value.contains(
+                                            "LockRelease",
+                                            true
+                                        )
+                                    ) {
                                         PropertyView(
                                             dataAccessControlConfiguration.value.lockRelease!!,
                                             this@MainActivity
@@ -119,7 +130,11 @@ class MainActivity : ComponentActivity() {
                                 }
 
                                 4 -> {
-                                    if(searchQuery.value.isEmpty() || searchQuery.value.contains("LockReleaseTime", true)) {
+                                    if (searchQuery.value.isEmpty() || searchQuery.value.contains(
+                                            "LockReleaseTime",
+                                            true
+                                        )
+                                    ) {
                                         PropertyView(
                                             dataAccessControlConfiguration.value.lockReleaseTime!!,
                                             this@MainActivity
@@ -128,7 +143,11 @@ class MainActivity : ComponentActivity() {
                                 }
 
                                 5 -> {
-                                    if(searchQuery.value.isEmpty() || searchQuery.value.contains("LockAngle", true)) {
+                                    if (searchQuery.value.isEmpty() || searchQuery.value.contains(
+                                            "LockAngle",
+                                            true
+                                        )
+                                    ) {
                                         PropertyView(
                                             dataAccessControlConfiguration.value.lockAngle!!,
                                             this@MainActivity
@@ -145,32 +164,32 @@ class MainActivity : ComponentActivity() {
                     CircularProgressIndicator()
                 }
 
-/*dataAccessControlConfiguration.value::class.java.declaredFields.forEach {
-                            when(it.type.name){
-                                "com.test.lockconfiguration.modal.LockAngle" -> {
-                                    PropertyView(dataAccessControlConfiguration.value.lockAngle, this@MainActivity)
-                                }
-                                "com.test.lockconfiguration.modal.LockKick" -> {
+                /*dataAccessControlConfiguration.value::class.java.declaredFields.forEach {
+                                            when(it.type.name){
+                                                "com.test.lockconfiguration.modal.LockAngle" -> {
+                                                    PropertyView(dataAccessControlConfiguration.value.lockAngle, this@MainActivity)
+                                                }
+                                                "com.test.lockconfiguration.modal.LockKick" -> {
 
-                                }
-                                "com.test.lockconfiguration.modal.LockRelease" -> {
+                                                }
+                                                "com.test.lockconfiguration.modal.LockRelease" -> {
 
-                                }
-                                "com.test.lockconfiguration.modal.LockReleaseTime" -> {
+                                                }
+                                                "com.test.lockconfiguration.modal.LockReleaseTime" -> {
 
-                                }
-                                "com.test.lockconfiguration.modal.LockType" -> {
+                                                }
+                                                "com.test.lockconfiguration.modal.LockType" -> {
 
-                                }
-                                "com.test.lockconfiguration.modal.LockVoltage" -> {
+                                                }
+                                                "com.test.lockconfiguration.modal.LockVoltage" -> {
 
-                                }
-                                else -> {
+                                                }
+                                                else -> {
 
-                                }
+                                                }
 
-                            }
-                        }*/
+                                            }
+                                        }*/
 
             }
         }

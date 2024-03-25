@@ -36,7 +36,7 @@ fun mySpinner(
     var spinnerText by remember { mutableStateOf(selectedOption) }
     var my_expanded by remember { mutableStateOf(false) }
 
-    if(spinnerText.length>0){
+    if (spinnerText.length > 0) {
         setSelected(spinnerText)
     }
     Row {
@@ -70,9 +70,10 @@ fun mySpinner(
                 DropdownMenu(expanded = my_expanded, onDismissRequest = { my_expanded = false }) {
                     choices.forEach { a_choice ->
                         DropdownMenuItem(
-                            text = { Text(text = a_choice)
+                            text = {
+                                Text(text = a_choice)
 
-                                   },
+                            },
                             onClick = {
                                 my_expanded = false
                                 spinnerText = a_choice

@@ -10,7 +10,7 @@ import java.util.PriorityQueue
 import java.util.concurrent.Executors
 
 object JobExecutor {
-    private val jobs  = PriorityQueue<suspend () -> Unit>()
+    private val jobs = PriorityQueue<suspend () -> Unit>()
     private lateinit var callback: ((Pair<Any?, Throwable?>) -> Unit)
     private val mutex = Mutex()
     private val coroutineExceptionHandler =
@@ -28,25 +28,26 @@ object JobExecutor {
 
     private fun run() {
         //  if(mutex.isLocked) return
-    synchronized(this) {
-        var job = jobs.poll()
-        while (job != null) {
-            val tempJob = job
-            scope.launch(dispatcher) {
-                tempJob.invoke()
+        synchronized(this) {
+            var job = jobs.poll()
+            while (job != null) {
+                val tempJob = job
+                scope.launch(dispatcher) {
+                    tempJob.invoke()
+                }
+                job = jobs.poll()
             }
-            job = jobs.poll()
         }
-    }
-       // execute(runTest)
+        // execute(runTest)
 
     }
-    suspend fun runTest(name : String, arg : Array<Any>){
+
+    suspend fun runTest(name: String, arg: Array<Any>) {
 
     }
 
     fun execute(task: suspend () -> Unit) /*: ReceiveChannel<Any>*/ {
-       //val f = runTest()
+        //val f = runTest()
 
         jobs.add(task)
         run()

@@ -15,4 +15,11 @@ val gradientEdit =
     Brush.verticalGradient(listOf(Color(0xFFF3DD4E), Color(0xAA9CF70B)))
 
 val gradientSave =
-    Brush.verticalGradient(listOf(Color(0xAA9CF70B), Color(0xFFEC6966), Color(0xFF7A706F), Color(0xFFF3DD4E)))
+    Brush.verticalGradient(
+        listOf(
+            Color(0xAA9CF70B),
+            Color(0xFFEC6966),
+            Color(0xFF7A706F),
+            Color(0xFFF3DD4E)
+        )
+    )

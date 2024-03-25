@@ -15,7 +15,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.net.SocketTimeoutException
 
-class AccessControlConfigurationViewMobal(application: Application) : AndroidViewModel(application) {
+class AccessControlConfigurationViewMobal(application: Application) :
+    AndroidViewModel(application) {
     private val TAG = "AccessControlConfigurationViewMobal"
     val masterKeyAlias = MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC)
     val sharedPreferences = EncryptedSharedPreferences.create(
@@ -25,6 +26,7 @@ class AccessControlConfigurationViewMobal(application: Application) : AndroidVie
         EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
         EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
     )
+
     @Composable
     fun onClickHandler(isLoading: MutableState<Boolean>) {
 
@@ -39,32 +41,32 @@ class AccessControlConfigurationViewMobal(application: Application) : AndroidVie
         }
     }
 
-    fun getAccessControlConfigurationData(){
+    fun getAccessControlConfigurationData() {
         JobExecutor.execute(::getAccessControlConfiguration)
 
     }
 
     @Composable
-    fun getAccessControlConfigurationData_Composable(data : MutableState<AccessControlConfigurationModal>){
-        LaunchedEffect(data.value){
-            withContext(Dispatchers.IO){
+    fun getAccessControlConfigurationData_Composable(data: MutableState<AccessControlConfigurationModal>) {
+        LaunchedEffect(data.value) {
+            withContext(Dispatchers.IO) {
                 val config = getAccessControlConfiguration()
-                if(config!= null){
+                if (config != null) {
                     data.value = config
                 }
             }
         }
     }
 
-    private suspend fun getAccessControlConfiguration() : AccessControlConfigurationModal? {
+    private suspend fun getAccessControlConfiguration(): AccessControlConfigurationModal? {
         return try {
             val response = HttpsClient.client.getAccessControlConfiguration().execute()
-            if(response.isSuccessful){
+            if (response.isSuccessful) {
                 response.body()!!
-            }else null
-        }catch (se : SocketTimeoutException) {
+            } else null
+        } catch (se: SocketTimeoutException) {
             null
-        }catch (e : Exception) {
+        } catch (e: Exception) {
             null
         }
     }

@@ -50,12 +50,15 @@ fun SearchField(
     windowInsets: WindowInsets = SearchBarDefaults.windowInsets,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     content: @Composable ColumnScope.() -> Unit,
-){
+) {
     var text by remember { mutableStateOf("") }
     TextField(
-        value = text, onValueChange = {text = it},
+        value = text, onValueChange = { text = it },
         placeholder = { Text("Search Parameter") },
-        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text, imeAction = ImeAction.Search),
+        keyboardOptions = KeyboardOptions(
+            keyboardType = KeyboardType.Text,
+            imeAction = ImeAction.Search
+        ),
         keyboardActions = KeyboardActions(onSearch = {
 
             Log.d("SearchBar", "onSearch $text")
@@ -64,7 +67,8 @@ fun SearchField(
             .fillMaxWidth()
             .padding(start = 15.dp, top = 5.dp, bottom = 5.dp, end = 15.dp)
             .border(1.dp, Color.Black, RectangleShape),
-        leadingIcon = { Icon(imageVector = Icons.Default.Search, contentDescription = null)
+        leadingIcon = {
+            Icon(imageVector = Icons.Default.Search, contentDescription = null)
         },
     )
 }

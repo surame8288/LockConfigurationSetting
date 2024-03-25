@@ -30,7 +30,7 @@ object HttpsClient {
                 "*/*"
             )
             val request = requestBuilder.build()
-            Log.d(TAG," Url : ${ request.url.toUrl().path }")
+            Log.d(TAG, " Url : ${request.url.toUrl().path}")
             val response = chain.proceed(request)
             Log.d(TAG, "StatusCode : ${response.code}")
             response

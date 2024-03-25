@@ -5,30 +5,22 @@ import androidx.activity.ComponentActivity
 import androidx.activity.viewModels
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.SearchBarColors
-import androidx.compose.material3.SearchBarDefaults
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
@@ -39,11 +31,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
-import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.test.lockconfiguration.modal.ConfigurationModal
@@ -86,7 +74,7 @@ fun buildSearchBar(searchQuery: MutableState<String>) {
 }
 
 @Composable
-fun PropertyTitleBarView(){
+fun PropertyTitleBarView() {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -107,7 +95,7 @@ fun PropertyTitleBarView(){
                 text = "Primary",
                 color = Color.White,
                 textAlign = TextAlign.Center,
-                )
+            )
         }
         Column(
             modifier = Modifier
@@ -131,8 +119,9 @@ fun PropertyTitleBarView(){
         }
     }
 }
+
 @Composable
-inline fun <reified T>PropertyView(accm: ConfigurationModal<T>, activity: ComponentActivity) {
+inline fun <reified T> PropertyView(accm: ConfigurationModal<T>, activity: ComponentActivity) {
 
     val _viewMobal: AccessControlConfigurationViewMobal by activity.viewModels()
     val viewModel = remember { _viewMobal }
@@ -191,11 +180,12 @@ inline fun <reified T>PropertyView(accm: ConfigurationModal<T>, activity: Compon
 
             ) {
                 accm.let {
-                    if(isEdit.value){
+                    if (isEdit.value) {
                         mySpinner(
                             "",
                             choices = configurationOptions, // listOf("H120", "H153", "H155"),
-                            "${accm.getValue(viewModel.sharedPreferences)}", ){
+                            "${accm.getValue(viewModel.sharedPreferences)}",
+                        ) {
                             ///if(T::class.java.typeName)
                             val tV = when (T::class) {
                                 Int::class -> it.toInt()
@@ -204,9 +194,12 @@ inline fun <reified T>PropertyView(accm: ConfigurationModal<T>, activity: Compon
                                 // add other types here if need
                                 else -> throw IllegalStateException("Unknown Generic Type ${T::class}")
                             }
-                            accm.setValue(value = tV as T, sharedPreferences = viewModel.sharedPreferences)
+                            accm.setValue(
+                                value = tV as T,
+                                sharedPreferences = viewModel.sharedPreferences
+                            )
                         }
-                    }else{
+                    } else {
 
                         Text(
                             text = "${accm.getValue(viewModel.sharedPreferences)}",
@@ -221,7 +214,7 @@ inline fun <reified T>PropertyView(accm: ConfigurationModal<T>, activity: Compon
 
                 accm.let {
                     Text(
-                        text = "${ it.getDefaultValue() }",
+                        text = "${it.getDefaultValue()}",
                         textAlign = TextAlign.Right,
                         modifier = Modifier
                             .weight(0.5f)
@@ -232,18 +225,17 @@ inline fun <reified T>PropertyView(accm: ConfigurationModal<T>, activity: Compon
             }
 
 
-
         }
 
         Button(
             onClick = {
                 Log.d("TAG", "onClick")
-                 //accm.setValue(value = selectedRoom as T, sharedPreferences = viewModel.sharedPreferences)
+                //accm.setValue(value = selectedRoom as T, sharedPreferences = viewModel.sharedPreferences)
                 //statVal.value = selectedRoom
                 isEdit.value = !isEdit.value
 
 
-                      },
+            },
             colors = ButtonDefaults.buttonColors(Color(0x88777A79)),
             modifier = Modifier
                 .height(75.dp)
@@ -252,17 +244,17 @@ inline fun <reified T>PropertyView(accm: ConfigurationModal<T>, activity: Compon
             shape = RectangleShape,
 
 
-        ){
+            ) {
 //            Image(painter = icon, contentDescription = null)
 //            Spacer(modifier = Modifier.width(8.dp)) // Adjust spacing
-          //  Text(text, fontSize = 40.sp)
+            //  Text(text, fontSize = 40.sp)
             Text(
                 text = ">",
                 fontSize = 24.sp,
                 textAlign = TextAlign.Center,
                 color = Color(0xFF615C46),
 
-            )
+                )
         }
     }
 }
