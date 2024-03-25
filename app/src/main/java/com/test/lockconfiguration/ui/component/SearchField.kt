@@ -60,7 +60,7 @@ fun SearchField(
             imeAction = ImeAction.Search
         ),
         keyboardActions = KeyboardActions(onSearch = {
-
+onQueryChange.invoke(text)
             Log.d("SearchBar", "onSearch $text")
         }),
         modifier = Modifier

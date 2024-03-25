@@ -44,7 +44,7 @@ class MainActivity : ComponentActivity() {
     @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewMobal.getAccessControlConfigurationData()
+       // viewMobal.getAccessControlConfigurationData()
         setContent {
 
 //            PropertyView("Android", "value", "defaultValue")
@@ -91,8 +91,8 @@ class MainActivity : ComponentActivity() {
                         items(dataAccessControlConfiguration::class.java.declaredFields.size) {
                             when (it) { //TODO to be handled in better way
                                 1 -> {
-                                    if (searchQuery.value.isEmpty() || searchQuery.value.contains(
-                                            "LockVoltage",
+                                    if (searchQuery.value.isEmpty() || "LockVoltage".contains(
+                                            searchQuery.value,
                                             true
                                         )
                                     ) {
@@ -104,8 +104,8 @@ class MainActivity : ComponentActivity() {
                                 }
 
                                 2 -> {
-                                    if (searchQuery.value.isEmpty() || searchQuery.value.contains(
-                                            "LockKick",
+                                    if (searchQuery.value.isEmpty() || "LockKick".contains(
+                                            searchQuery.value,
                                             true
                                         )
                                     ) {
@@ -117,8 +117,8 @@ class MainActivity : ComponentActivity() {
                                 }
 
                                 3 -> {
-                                    if (searchQuery.value.isEmpty() || searchQuery.value.contains(
-                                            "LockRelease",
+                                    if (searchQuery.value.isEmpty() || "LockRelease".contains(
+                                            searchQuery.value,
                                             true
                                         )
                                     ) {
@@ -130,8 +130,8 @@ class MainActivity : ComponentActivity() {
                                 }
 
                                 4 -> {
-                                    if (searchQuery.value.isEmpty() || searchQuery.value.contains(
-                                            "LockReleaseTime",
+                                    if (searchQuery.value.isEmpty() || "LockReleaseTime".contains(
+                                            searchQuery.value,
                                             true
                                         )
                                     ) {
@@ -143,8 +143,8 @@ class MainActivity : ComponentActivity() {
                                 }
 
                                 5 -> {
-                                    if (searchQuery.value.isEmpty() || searchQuery.value.contains(
-                                            "LockAngle",
+                                    if (searchQuery.value.isEmpty() || "LockAngle".contains(
+                                            searchQuery.value,
                                             true
                                         )
                                     ) {

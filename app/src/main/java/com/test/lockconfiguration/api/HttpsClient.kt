@@ -39,13 +39,12 @@ object HttpsClient {
         val client: OkHttpClient = OkHttpClient.Builder()
             .addInterceptor(interceptor)
             .addInterceptor(customHeaderInterceptor)
-            .readTimeout(60, TimeUnit.SECONDS)
-            .connectTimeout(60, TimeUnit.SECONDS)
+            .readTimeout(10, TimeUnit.SECONDS)
+            .connectTimeout(10, TimeUnit.SECONDS)
             .build()
 
         return Retrofit.Builder()
-//            .baseUrl("https://delegation-service2-1-0.azurewebsites.net")
-            .baseUrl("https://run.mocky.io/v3/")
+            .baseUrl("https://mocki.io/v1/")
             .addConverterFactory(
                 GsonConverterFactory.create(
                     GsonBuilder().disableHtmlEscaping().create()

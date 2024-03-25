@@ -43,7 +43,6 @@ class AccessControlConfigurationViewMobal(application: Application) :
 
     fun getAccessControlConfigurationData() {
         JobExecutor.execute(::getAccessControlConfiguration)
-
     }
 
     @Composable
@@ -61,12 +60,14 @@ class AccessControlConfigurationViewMobal(application: Application) :
     private suspend fun getAccessControlConfiguration(): AccessControlConfigurationModal? {
         return try {
             val response = HttpsClient.client.getAccessControlConfiguration().execute()
-            if (response.isSuccessful) {
+            if (response != null && response.isSuccessful) {
                 response.body()!!
             } else null
         } catch (se: SocketTimeoutException) {
+            se.printStackTrace()
             null
         } catch (e: Exception) {
+            e.printStackTrace()
             null
         }
     }

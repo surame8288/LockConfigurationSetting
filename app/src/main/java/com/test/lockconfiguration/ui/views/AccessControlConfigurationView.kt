@@ -46,7 +46,6 @@ import com.test.lockconfiguration.ui.viewmodals.AccessControlConfigurationViewMo
 @OptIn(ExperimentalMaterial3Api::class)
 fun buildSearchBar(searchQuery: MutableState<String>) {
     var text by remember { mutableStateOf("") } // Query for SearchBar
-
     var active by remember { mutableStateOf(false) } // Active state for SearchBar
 
     SearchField(modifier = Modifier.fillMaxWidth(),
@@ -56,7 +55,7 @@ fun buildSearchBar(searchQuery: MutableState<String>) {
             searchQuery.value = it
         },
         onSearch = {
-            active = false
+            active = true
         },
         active = active,
         onActiveChange = {
