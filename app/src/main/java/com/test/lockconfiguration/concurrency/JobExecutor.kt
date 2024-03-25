@@ -4,12 +4,10 @@ import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.asCoroutineDispatcher
-import kotlinx.coroutines.channels.ReceiveChannel
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import java.util.PriorityQueue
 import java.util.concurrent.Executors
-import kotlin.reflect.KFunction1
 
 object JobExecutor {
     private val jobs  = PriorityQueue<suspend () -> Unit>()

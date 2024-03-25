@@ -30,13 +30,13 @@ import androidx.compose.material3.SearchBarDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
@@ -47,21 +47,25 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.test.lockconfiguration.modal.ConfigurationModal
+import com.test.lockconfiguration.ui.component.SearchField
 import com.test.lockconfiguration.ui.component.mySpinner
+import com.test.lockconfiguration.ui.theme.gradientEdit
+import com.test.lockconfiguration.ui.theme.gradientSave
 import com.test.lockconfiguration.ui.viewmodals.AccessControlConfigurationViewMobal
 
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
-fun buildSearchBar() {
+fun buildSearchBar(searchQuery: MutableState<String>) {
     var text by remember { mutableStateOf("") } // Query for SearchBar
 
     var active by remember { mutableStateOf(false) } // Active state for SearchBar
 
-    SearchBar(modifier = Modifier.fillMaxWidth(),
+    SearchField(modifier = Modifier.fillMaxWidth(),
         query = text,
         onQueryChange = {
             text = it
+            searchQuery.value = it
         },
         onSearch = {
             active = false
@@ -79,44 +83,6 @@ fun buildSearchBar() {
 
 
     }
-}
-
-@ExperimentalMaterial3Api
-@Composable
-fun SearchBar(
-    query: String,
-    onQueryChange: (String) -> Unit,
-    onSearch: (String) -> Unit,
-    active: Boolean,
-    onActiveChange: (Boolean) -> Unit,
-    modifier: Modifier = Modifier,
-    enabled: Boolean = true,
-    placeholder: @Composable (() -> Unit)? = null,
-    leadingIcon: @Composable (() -> Unit)? = null,
-    trailingIcon: @Composable (() -> Unit)? = null,
-    shape: Shape = SearchBarDefaults.inputFieldShape,
-    colors: SearchBarColors = SearchBarDefaults.colors(),
-    tonalElevation: Dp = SearchBarDefaults.Elevation,
-    windowInsets: WindowInsets = SearchBarDefaults.windowInsets,
-    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
-    content: @Composable ColumnScope.() -> Unit,
-){
-    var text by remember { mutableStateOf("") }
-    TextField(
-        value = text, onValueChange = {text = it},
-        placeholder = { Text("Search Parameter") },
-        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text, imeAction = ImeAction.Search),
-        keyboardActions = KeyboardActions(onSearch = {
-
-           Log.d("SearchBar", "onSearch $text")
-        }),
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(start = 15.dp, top = 5.dp, bottom = 5.dp, end = 15.dp)
-            .border(1.dp, Color.Black, RectangleShape),
-        leadingIcon = { Icon(imageVector = Icons.Default.Search, contentDescription = null)
-        },
-    )
 }
 
 @Composable
@@ -165,12 +131,6 @@ fun PropertyTitleBarView(){
         }
     }
 }
-val gradientEdit =
-    Brush.verticalGradient(listOf(Color(0xFFF3DD4E), Color(0xAA9CF70B)))
-
-val gradientSave =
-    Brush.verticalGradient(listOf(Color(0xAA9CF70B), Color(0xFFEC6966), Color(0xFF7A706F), Color(0xFFF3DD4E)))
-
 @Composable
 inline fun <reified T>PropertyView(accm: ConfigurationModal<T>, activity: ComponentActivity) {
 
@@ -287,7 +247,6 @@ inline fun <reified T>PropertyView(accm: ConfigurationModal<T>, activity: Compon
             colors = ButtonDefaults.buttonColors(Color(0x88777A79)),
             modifier = Modifier
                 .height(75.dp)
-
                 .background(if (isEdit.value) gradientSave else gradientEdit)
                 .weight(0.12f),
             shape = RectangleShape,
@@ -307,25 +266,3 @@ inline fun <reified T>PropertyView(accm: ConfigurationModal<T>, activity: Compon
         }
     }
 }
-
-/*
-@Suppress("ModifierParameter")
-@Composable
-fun DropdownMenu(
-    expanded: Boolean,
-    onDismissRequest: () -> Unit,
-    modifier: Modifier = Modifier,
-    offset: DpOffset = DpOffset(0.dp, 0.dp),
-    properties: PopupProperties = PopupProperties(focusable = true),
-    content: @Composable ColumnScope.() -> Unit
-){
-
-}
-*/
-
-
-
-//@Composable
-//private fun setAngle(angle : Int){
-//    LockAngle().setValue(value = angle)
-//}

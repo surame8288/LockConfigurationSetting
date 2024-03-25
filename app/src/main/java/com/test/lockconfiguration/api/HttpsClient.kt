@@ -1,6 +1,5 @@
 package com.test.lockconfiguration.api
 
-import android.util.Base64
 import android.util.Log
 import com.google.gson.GsonBuilder
 import okhttp3.Interceptor

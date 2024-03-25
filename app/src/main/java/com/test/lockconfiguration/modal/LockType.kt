@@ -7,7 +7,6 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import com.google.gson.annotations.SerializedName
-import com.test.lockconfiguration.modal.ConfigurationModal
 
 
 data class LockType (
