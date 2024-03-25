@@ -12,14 +12,12 @@ val PurpleGrey40 = Color(0xFF625b71)
 val Pink40 = Color(0xFF7D5260)
 
 val gradientEdit =
-    Brush.verticalGradient(listOf(Color(0xFFF3DD4E), Color(0xAA9CF70B)))
+    Brush.verticalGradient(listOf(Color(0xFFFFFBE0), Color(0xAA828381)))
 
 val gradientSave =
     Brush.verticalGradient(
         listOf(
-            Color(0xAA9CF70B),
             Color(0xFFEC6966),
             Color(0xFF7A706F),
-            Color(0xFFF3DD4E)
         )
     )

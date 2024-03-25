@@ -67,8 +67,6 @@ fun buildSearchBar(searchQuery: MutableState<String>) {
         trailingIcon = {
             Icon(imageVector = Icons.Default.Search, contentDescription = null)
         }) {
-
-
     }
 }
 
@@ -105,8 +103,6 @@ fun PropertyTitleBarView() {
                 .weight(0.5f),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
-
-
         ) {
             Text(
                 text = "Secondary",
@@ -128,7 +124,6 @@ inline fun <reified T> PropertyView(accm: ConfigurationModal<T>, activity: Compo
     val value = accm.getValue(viewModel.sharedPreferences)
     val configurationOptions = accm.getValues()
     val (selectedRoom, setSelectedRoom) = remember { mutableStateOf("${listOf(value)[0]}") }
-    //val statVal = accm.setValue(value = selectedRoom , sharedPreferences = viewModel.sharedPreferences)
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -136,8 +131,9 @@ inline fun <reified T> PropertyView(accm: ConfigurationModal<T>, activity: Compo
             .border(
                 width = 2.dp,
                 color = Color.LightGray,
-                shape = RoundedCornerShape(6.dp)
+                shape = RectangleShape
             )
+            .padding(top = 6.dp, bottom = 6.dp)
     ) {
         Column(
             modifier = Modifier
@@ -146,37 +142,30 @@ inline fun <reified T> PropertyView(accm: ConfigurationModal<T>, activity: Compo
                 .fillMaxWidth(1f)
                 .padding(top = 0.dp, start = 0.dp)
                 .weight(0.9f)
-
-
         ) {
-
             Row(
                 Modifier
-                    .background(Color(0xAAA5E73B))
+                    .background(Color(0xFFFFFFFF))
                     .fillMaxHeight(0.5f)
                     .fillMaxWidth(1f),
                 horizontalArrangement = Arrangement.Absolute.Center,
                 verticalAlignment = Alignment.CenterVertically
-
             ) {
                 accm.javaClass?.let {
                     Text(
                         text = it.simpleName,
-                        color = Color(0xFFFDD835),
+                        color = Color.Black,
                         textAlign = TextAlign.Center,
                         modifier = Modifier
-
                     )
                 }
             }
             Row(
                 Modifier
-                    .background(Color(0xFFF3DD4E))
+                    .background(Color(0xFFFFFFFF))
                     .fillMaxHeight(1f)
                     .fillMaxWidth(1f),
                 verticalAlignment = Alignment.CenterVertically
-
-
             ) {
                 accm.let {
                     if (isEdit.value) {
@@ -208,7 +197,6 @@ inline fun <reified T> PropertyView(accm: ConfigurationModal<T>, activity: Compo
                                 .padding(start = 10.dp)
                         )
                     }
-
                 }
 
                 accm.let {
@@ -222,8 +210,6 @@ inline fun <reified T> PropertyView(accm: ConfigurationModal<T>, activity: Compo
                 }
 
             }
-
-
         }
 
         Button(
@@ -232,8 +218,6 @@ inline fun <reified T> PropertyView(accm: ConfigurationModal<T>, activity: Compo
                 //accm.setValue(value = selectedRoom as T, sharedPreferences = viewModel.sharedPreferences)
                 //statVal.value = selectedRoom
                 isEdit.value = !isEdit.value
-
-
             },
             colors = ButtonDefaults.buttonColors(Color(0x88777A79)),
             modifier = Modifier
@@ -244,15 +228,11 @@ inline fun <reified T> PropertyView(accm: ConfigurationModal<T>, activity: Compo
 
 
             ) {
-//            Image(painter = icon, contentDescription = null)
-//            Spacer(modifier = Modifier.width(8.dp)) // Adjust spacing
-            //  Text(text, fontSize = 40.sp)
             Text(
                 text = ">",
                 fontSize = 24.sp,
                 textAlign = TextAlign.Center,
                 color = Color(0xFF615C46),
-
                 )
         }
     }
