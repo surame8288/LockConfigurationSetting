@@ -9,10 +9,10 @@ import androidx.compose.runtime.remember
 import com.google.gson.annotations.SerializedName
 
 
-data class LockKick(
+data class LockKick<T : String>(
     @SerializedName("values") var values: ArrayList<String> = arrayListOf(),
     @SerializedName("default") var default: String = ""
-) : ConfigurationModal<String> {
+) : LockConfiguration<String> {
     val TAG = "LockKick"
     private var kick = default
 
@@ -28,18 +28,22 @@ data class LockKick(
     override fun getDefaultValue(): String = default
 
     @Composable
-    override fun setValue(
-        value: String,
+    override fun <T> setValue(
+        value: T,
         sharedPreferences: SharedPreferences
-    ): MutableState<String> {
-        Log.d("ConfigurationModal", "LockKick#setValue")
-        sharedPreferences.edit().putString(TAG, value).apply()
-        this.kick = value
-        var state = remember { mutableStateOf(this.kick) }
+    ): MutableState<T> {
+        Log.d("LockConfiguration", "LockKick#setValue")
+        sharedPreferences.edit().putString(TAG, value.toString()).apply()
+        this.kick = value as String
+        var state: MutableState<T> = remember { mutableStateOf(value) }
         return state
     }
 
     override fun toString(): String {
         return this.kick
+    }
+
+    override fun getClazz(): Class<String> {
+        return this.getClazz()
     }
 }

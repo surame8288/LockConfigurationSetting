@@ -1,5 +1,6 @@
 package com.test.lockconfiguration
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -9,6 +10,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
@@ -24,14 +26,17 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.test.lockconfiguration.modal.AccessControlConfigurationModal
+import com.test.lockconfiguration.modal.LockConfiguration
 import com.test.lockconfiguration.ui.theme.LockConfigurationTheme
 import com.test.lockconfiguration.ui.viewmodals.AccessControlConfigurationViewMobal
 import com.test.lockconfiguration.ui.views.PropertyTitleBarView
@@ -44,18 +49,14 @@ class MainActivity : ComponentActivity() {
     @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-       // viewMobal.getAccessControlConfigurationData()
+        // viewMobal.getAccessControlConfigurationData()
         setContent {
-
-//            PropertyView("Android", "value", "defaultValue")
-//            PropertyTitleBarView()
             Surface(
                 modifier = Modifier.fillMaxSize(),
                 color = MaterialTheme.colorScheme.background
             ) {
                 LockConfigurationTheme {
                     ScaffoldWithTopBar(bindView())
-
                 }
             }
 
@@ -64,16 +65,14 @@ class MainActivity : ComponentActivity() {
     }
 
 
+    @SuppressLint("SuspiciousIndentation")
     @Composable
     fun bindView(): @Composable (PaddingValues) -> Unit {
-
         val searchQuery = remember { mutableStateOf("") }
         val dataAccessControlConfiguration = remember {
             mutableStateOf(AccessControlConfigurationModal())
         }
         viewMobal.getAccessControlConfigurationData_Composable(data = dataAccessControlConfiguration)
-        val data = remember { mutableStateOf(listOf<String>()) }
-        //viewMobal.onClickHandler(isLoading)
         return { it ->
             Column(
                 modifier = Modifier
@@ -88,112 +87,36 @@ class MainActivity : ComponentActivity() {
 
                 if (dataAccessControlConfiguration.value.lockAngle != null) {
                     LazyColumn {
-                        items(dataAccessControlConfiguration::class.java.declaredFields.size) {
-                            when (it) { //TODO to be handled in better way
-                                1 -> {
-                                    if (searchQuery.value.isEmpty() || "LockVoltage".contains(
-                                            searchQuery.value,
-                                            true
-                                        )
-                                    ) {
-                                        PropertyView(
-                                            dataAccessControlConfiguration.value.lockVoltage!!,
-                                            this@MainActivity
-                                        )
-                                    }
-                                }
-
-                                2 -> {
-                                    if (searchQuery.value.isEmpty() || "LockKick".contains(
-                                            searchQuery.value,
-                                            true
-                                        )
-                                    ) {
-                                        PropertyView(
-                                            dataAccessControlConfiguration.value.lockKick!!,
-                                            this@MainActivity
-                                        )
-                                    }
-                                }
-
-                                3 -> {
-                                    if (searchQuery.value.isEmpty() || "LockRelease".contains(
-                                            searchQuery.value,
-                                            true
-                                        )
-                                    ) {
-                                        PropertyView(
-                                            dataAccessControlConfiguration.value.lockRelease!!,
-                                            this@MainActivity
-                                        )
-                                    }
-                                }
-
-                                4 -> {
-                                    if (searchQuery.value.isEmpty() || "LockReleaseTime".contains(
-                                            searchQuery.value,
-                                            true
-                                        )
-                                    ) {
-                                        PropertyView(
-                                            dataAccessControlConfiguration.value.lockReleaseTime!!,
-                                            this@MainActivity
-                                        )
-                                    }
-                                }
-
-                                5 -> {
-                                    if (searchQuery.value.isEmpty() || "LockAngle".contains(
-                                            searchQuery.value,
-                                            true
-                                        )
-                                    ) {
-                                        PropertyView(
-                                            dataAccessControlConfiguration.value.lockAngle!!,
-                                            this@MainActivity
-                                        )
-                                    }
-                                }
-                            }
+                        val configList = parseLockConfigurations(dataAccessControlConfiguration)
+                        items(configList.size) {
+                            PropertyView(
+                                accm = configList[it],
+                                activity = this@MainActivity
+                            )
                         }
-                        /*items(dataAccessControlConfiguration.value::class.java.declaredFields.size -1){
-                            PropertyView(dataAccessControlConfiguration.value.lockAngle, this@MainActivity)
-                        }*/
                     }
                 } else {
                     CircularProgressIndicator()
                 }
-
-                /*dataAccessControlConfiguration.value::class.java.declaredFields.forEach {
-                                            when(it.type.name){
-                                                "com.test.lockconfiguration.modal.LockAngle" -> {
-                                                    PropertyView(dataAccessControlConfiguration.value.lockAngle, this@MainActivity)
-                                                }
-                                                "com.test.lockconfiguration.modal.LockKick" -> {
-
-                                                }
-                                                "com.test.lockconfiguration.modal.LockRelease" -> {
-
-                                                }
-                                                "com.test.lockconfiguration.modal.LockReleaseTime" -> {
-
-                                                }
-                                                "com.test.lockconfiguration.modal.LockType" -> {
-
-                                                }
-                                                "com.test.lockconfiguration.modal.LockVoltage" -> {
-
-                                                }
-                                                else -> {
-
-                                                }
-
-                                            }
-                                        }*/
-
             }
         }
     }
+
+    private fun parseLockConfigurations(dataAccessControlConfiguration: MutableState<AccessControlConfigurationModal>) =
+        dataAccessControlConfiguration.value::class.java.declaredFields.fold(
+            mutableListOf<LockConfiguration<*>>()
+        ) { list, conf ->
+            try {
+                conf.isAccessible = true
+                val v = conf.get(dataAccessControlConfiguration.value)
+                if (v is LockConfiguration<*>) {
+                    list.add(v)
+                }
+                list
+            } catch (e: IllegalArgumentException) {
+                mutableListOf()
+            }
+        }
 
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
@@ -202,7 +125,12 @@ class MainActivity : ComponentActivity() {
             topBar = {
                 TopAppBar(
                     title = {
-                        Text(text = "Top App Bar")
+                        Text(
+                            text = "Lock Parameters",
+                            modifier = Modifier.fillMaxWidth(),
+                            textAlign = TextAlign.Center,
+                            color = Color.Black
+                        )
                     },
                     navigationIcon = {
                         IconButton(onClick = {}) {
@@ -210,7 +138,7 @@ class MainActivity : ComponentActivity() {
                         }
                     },
                     colors = TopAppBarDefaults.smallTopAppBarColors(
-                        containerColor = MaterialTheme.colorScheme.primary,
+                        containerColor = Color.White,
                         titleContentColor = Color.White,
                     ),
                 )

@@ -8,12 +8,12 @@ import androidx.compose.runtime.remember
 import com.google.gson.annotations.SerializedName
 
 
-data class LockRelease(
+data class LockRelease<T : String>(
     @SerializedName("values") var values: ArrayList<String> = arrayListOf(),
     @SerializedName("default") var default: String = "",
     @SerializedName("common") var common: Boolean? = null
 
-) : ConfigurationModal<String> {
+) : LockConfiguration<String> {
     val TAG = "LockRelease"
     private var release = default
 
@@ -26,20 +26,24 @@ data class LockRelease(
         return values
     }
 
-    override fun getDefaultValue(): String = default
+    override fun getDefaultValue(): String = default as T
 
     @Composable
-    override fun setValue(
-        value: String,
+    override fun <T> setValue(
+        value: T,
         sharedPreferences: SharedPreferences
-    ): MutableState<String> {
-        sharedPreferences.edit().putString(TAG, value).apply()
-        this.release = value
-        var state = remember { mutableStateOf(this.release) }
+    ): MutableState<T> {
+        this.release = value.toString()
+        sharedPreferences.edit().putString(TAG, this.release).apply()
+        var state: MutableState<T> = remember { mutableStateOf(value) }
         return state
     }
 
     override fun toString(): String {
         return this.release
+    }
+
+    override fun getClazz(): Class<String> {
+        return this.getClazz()
     }
 }

@@ -9,18 +9,17 @@ import androidx.compose.runtime.remember
 import com.google.gson.annotations.SerializedName
 
 
-data class LockAngle(
+data class LockAngle<T : Double>(
     @SerializedName("range") var values: Range = Range(),
     @SerializedName("unit") var unit: String? = null,
     @SerializedName("default") var default: Double = 0.0,
     @SerializedName("common") var common: Boolean? = null
-) : ConfigurationModal<Double> {
+) : LockConfiguration<Double> {
     val TAG = "LockAngle"
     private var angle = default
 
     override fun getValue(sharedPreferences: SharedPreferences): Double {
         this.angle = sharedPreferences.getFloat(TAG, default.toFloat()).toString().toDouble()
-
         return this.angle
     }
 
@@ -28,21 +27,25 @@ data class LockAngle(
         return mutableListOf(values.min.toString(), values.max.toString())
     }
 
-    override fun getDefaultValue(): Double = default
+    override fun getDefaultValue(): T = default as T
 
     @Composable
-    override fun setValue(
-        value: Double,
+    override fun <T> setValue(
+        value: T,
         sharedPreferences: SharedPreferences
-    ): MutableState<Double> {
-        Log.d("ConfigurationModal", "LockAngle#setValue")
-        sharedPreferences.edit().putFloat(TAG, value.toFloat()).apply()
-        this.angle = value
-        var state = remember { mutableStateOf(this.angle) }
+    ): MutableState<T> {
+        Log.d("LockConfiguration", "LockAngle#setValue")
+        this.angle = value as Double
+        sharedPreferences.edit().putFloat(TAG, this.angle.toFloat()).apply()
+        var state: MutableState<T> = remember { mutableStateOf(value) }
         return state
     }
 
     override fun toString(): String {
         return this.angle.toString()
+    }
+
+    override fun getClazz(): Class<Double> {
+        return this.getClazz()
     }
 }

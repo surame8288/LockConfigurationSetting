@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Button
@@ -34,7 +33,7 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.test.lockconfiguration.modal.ConfigurationModal
+import com.test.lockconfiguration.modal.LockConfiguration
 import com.test.lockconfiguration.ui.component.SearchField
 import com.test.lockconfiguration.ui.component.mySpinner
 import com.test.lockconfiguration.ui.theme.gradientEdit
@@ -108,15 +107,13 @@ fun PropertyTitleBarView() {
                 text = "Secondary",
                 color = Color.White,
                 textAlign = TextAlign.Center,
-
-
-                )
+            )
         }
     }
 }
 
 @Composable
-inline fun <reified T> PropertyView(accm: ConfigurationModal<T>, activity: ComponentActivity) {
+inline fun PropertyView(accm: LockConfiguration<*>, activity: ComponentActivity) {
 
     val _viewMobal: AccessControlConfigurationViewMobal by activity.viewModels()
     val viewModel = remember { _viewMobal }
@@ -167,25 +164,43 @@ inline fun <reified T> PropertyView(accm: ConfigurationModal<T>, activity: Compo
                     .fillMaxWidth(1f),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                accm.let {
+                accm.let { ac ->
                     if (isEdit.value) {
+
                         mySpinner(
                             "",
-                            choices = configurationOptions, // listOf("H120", "H153", "H155"),
+                            choices = configurationOptions,
                             "${accm.getValue(viewModel.sharedPreferences)}",
                         ) {
                             ///if(T::class.java.typeName)
-                            val tV = when (T::class) {
-                                Int::class -> it.toInt()
-                                Double::class -> it.toDouble()
-                                String::class -> it as T
+
+
+                            when (accm.getClazz()) {
+                                Int::class -> {
+
+                                    accm.setValue(
+                                        value = it.toInt(),
+                                        sharedPreferences = viewModel.sharedPreferences
+                                    )
+                                }
+
+                                Double::class -> {
+                                    accm.setValue(
+                                        value = it.toDouble(),
+                                        sharedPreferences = viewModel.sharedPreferences
+                                    )
+                                }
+
+                                String::class -> {
+                                    accm.setValue(
+                                        value = it,
+                                        sharedPreferences = viewModel.sharedPreferences
+                                    )
+                                }
                                 // add other types here if need
-                                else -> throw IllegalStateException("Unknown Generic Type ${T::class}")
+                                else -> throw IllegalStateException("Unknown Generic Type ${accm.getClazz()}")
                             }
-                            accm.setValue(
-                                value = tV as T,
-                                sharedPreferences = viewModel.sharedPreferences
-                            )
+
                         }
                     } else {
 
@@ -233,7 +248,7 @@ inline fun <reified T> PropertyView(accm: ConfigurationModal<T>, activity: Compo
                 fontSize = 24.sp,
                 textAlign = TextAlign.Center,
                 color = Color(0xFF615C46),
-                )
+            )
         }
     }
 }

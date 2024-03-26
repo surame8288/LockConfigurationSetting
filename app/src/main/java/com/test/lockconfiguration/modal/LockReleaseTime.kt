@@ -1,6 +1,7 @@
 package com.test.lockconfiguration.modal
 
 import android.content.SharedPreferences
+import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
@@ -8,12 +9,12 @@ import androidx.compose.runtime.remember
 import com.google.gson.annotations.SerializedName
 
 
-data class LockReleaseTime(
+data class LockReleaseTime<T : Double>(
     @SerializedName("range") var values: Range = Range(),
     @SerializedName("unit") var unit: String? = null,
     @SerializedName("default") var default: Double = 0.0
 
-) : ConfigurationModal<Double> {
+) : LockConfiguration<Double> {
     val TAG = "LockReleaseTime"
     private var time = default
 
@@ -30,17 +31,22 @@ data class LockReleaseTime(
     override fun getDefaultValue(): Double = default
 
     @Composable
-    override fun setValue(
-        value: Double,
+    override fun <T> setValue(
+        value: T,
         sharedPreferences: SharedPreferences
-    ): MutableState<Double> {
-        sharedPreferences.edit().putFloat(TAG, value.toFloat()).apply()
-        this.time = value
-        var state = remember { mutableStateOf(this.time) }
+    ): MutableState<T> {
+        Log.d("LockConfiguration", "LockAngle#setValue")
+        this.time = value as Double
+        sharedPreferences.edit().putFloat(TAG, this.time.toFloat()).apply()
+        var state: MutableState<T> = remember { mutableStateOf(value) }
         return state
     }
 
     override fun toString(): String {
         return this.time.toString()
+    }
+
+    override fun getClazz(): Class<Double> {
+        return this.getClazz()
     }
 }
