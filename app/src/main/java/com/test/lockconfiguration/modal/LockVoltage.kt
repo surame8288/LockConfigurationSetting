@@ -14,7 +14,7 @@ data class LockVoltage<T : String>(
     @SerializedName("default") private var default: String = ""
 
 ) : LockConfiguration<String> {
-    val TAG = "LockVoltage"
+    override val TAG = "LockVoltage"
     private var voltage = default
 
     override fun getValue(sharedPreferences: SharedPreferences): String {

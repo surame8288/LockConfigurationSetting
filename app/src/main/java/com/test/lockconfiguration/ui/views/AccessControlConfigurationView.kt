@@ -130,7 +130,9 @@ inline fun PropertyView(accm: LockConfiguration<*>, activity: ComponentActivity)
                 color = Color.LightGray,
                 shape = RectangleShape
             )
-            .padding(top = 6.dp, bottom = 6.dp)
+            .padding(top = 0.dp, bottom = 0.dp),
+
+
     ) {
         Column(
             modifier = Modifier

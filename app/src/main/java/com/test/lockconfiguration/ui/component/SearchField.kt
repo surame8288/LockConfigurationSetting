@@ -6,6 +6,7 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -64,8 +65,9 @@ fun SearchField(
             Log.d("SearchBar", "onSearch $text")
         }),
         modifier = Modifier
+            .height(55.dp)
             .fillMaxWidth()
-            .padding(start = 15.dp, top = 5.dp, bottom = 5.dp, end = 15.dp)
+            .padding(start = 15.dp, top = 0.dp, bottom = 0.dp, end = 15.dp)
             .border(1.dp, Color.Black, RectangleShape),
         leadingIcon = {
             Icon(imageVector = Icons.Default.Search, contentDescription = null)

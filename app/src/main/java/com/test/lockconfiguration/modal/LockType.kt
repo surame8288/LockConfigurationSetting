@@ -13,7 +13,7 @@ data class LockType<T : String>(
     @SerializedName("default") var default: String = ""
 
 ) : LockConfiguration<String> {
-    val TAG = "LockType"
+    override val TAG = "LockType"
     private var type = default
 
     override fun getValue(sharedPreferences: SharedPreferences): String {

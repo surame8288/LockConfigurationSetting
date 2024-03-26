@@ -13,7 +13,7 @@ data class LockKick<T : String>(
     @SerializedName("values") var values: ArrayList<String> = arrayListOf(),
     @SerializedName("default") var default: String = ""
 ) : LockConfiguration<String> {
-    val TAG = "LockKick"
+    override val TAG = "LockKick"
     private var kick = default
 
     override fun getValue(sharedPreferences: SharedPreferences): String {

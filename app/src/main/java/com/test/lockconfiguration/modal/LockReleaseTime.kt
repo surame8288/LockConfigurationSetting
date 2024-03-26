@@ -15,7 +15,7 @@ data class LockReleaseTime<T : Double>(
     @SerializedName("default") var default: Double = 0.0
 
 ) : LockConfiguration<Double> {
-    val TAG = "LockReleaseTime"
+    override val TAG = "LockReleaseTime"
     private var time = default
 
     override fun getValue(sharedPreferences: SharedPreferences): Double {

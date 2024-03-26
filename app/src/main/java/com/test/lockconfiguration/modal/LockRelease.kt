@@ -14,7 +14,7 @@ data class LockRelease<T : String>(
     @SerializedName("common") var common: Boolean? = null
 
 ) : LockConfiguration<String> {
-    val TAG = "LockRelease"
+    override val TAG = "LockRelease"
     private var release = default
 
     override fun getValue(sharedPreferences: SharedPreferences): String {

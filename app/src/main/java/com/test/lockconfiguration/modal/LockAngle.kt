@@ -15,7 +15,7 @@ data class LockAngle<T : Double>(
     @SerializedName("default") var default: Double = 0.0,
     @SerializedName("common") var common: Boolean? = null
 ) : LockConfiguration<Double> {
-    val TAG = "LockAngle"
+    override val TAG = "LockAngle"
     private var angle = default
 
     override fun getValue(sharedPreferences: SharedPreferences): Double {

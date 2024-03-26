@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -89,10 +90,15 @@ class MainActivity : ComponentActivity() {
                     LazyColumn {
                         val configList = parseLockConfigurations(dataAccessControlConfiguration)
                         items(configList.size) {
-                            PropertyView(
-                                accm = configList[it],
-                                activity = this@MainActivity
-                            )
+                            val accm = configList[it]
+                            if (searchQuery.value.isEmpty() || accm.TAG.contains(searchQuery.value, true)){
+                                PropertyView(
+                                    accm = accm,
+                                    activity = this@MainActivity
+                                )
+                                Spacer(modifier = Modifier.width(110.dp))
+                            }
+
                         }
                     }
                 } else {

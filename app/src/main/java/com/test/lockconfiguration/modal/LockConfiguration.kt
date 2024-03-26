@@ -6,6 +6,8 @@ import androidx.compose.runtime.MutableState
 
 
 interface LockConfiguration<T> {
+    val TAG: String
+
     fun getValue(sharedPreferences: SharedPreferences): T?
     fun getValues(): List<String>
     fun getDefaultValue(): T
