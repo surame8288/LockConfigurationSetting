@@ -35,7 +35,7 @@ data class LockVoltage<T : String>(
     ): MutableState<T> {
         Log.d("LockConfiguration", "LockAngle#setValue")
         this.voltage = value as String
-        sharedPreferences.edit().putFloat(TAG, this.voltage.toFloat()).apply()
+        sharedPreferences.edit().putString(TAG, this.voltage).apply()
         var state: MutableState<T> = remember { mutableStateOf(value) }
         return state
     }
@@ -45,6 +45,6 @@ data class LockVoltage<T : String>(
     }
 
     override fun getClazz(): Class<String> {
-        return this.getClazz()
+        return String::class.java
     }
 }

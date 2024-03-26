@@ -176,7 +176,7 @@ inline fun PropertyView(accm: LockConfiguration<*>, activity: ComponentActivity)
 
 
                             when (accm.getClazz()) {
-                                Int::class -> {
+                                Int::class.java -> {
 
                                     accm.setValue(
                                         value = it.toInt(),
@@ -184,14 +184,14 @@ inline fun PropertyView(accm: LockConfiguration<*>, activity: ComponentActivity)
                                     )
                                 }
 
-                                Double::class -> {
+                                Double::class.java -> {
                                     accm.setValue(
                                         value = it.toDouble(),
                                         sharedPreferences = viewModel.sharedPreferences
                                     )
                                 }
 
-                                String::class -> {
+                                String::class.java -> {
                                     accm.setValue(
                                         value = it,
                                         sharedPreferences = viewModel.sharedPreferences
@@ -200,10 +200,8 @@ inline fun PropertyView(accm: LockConfiguration<*>, activity: ComponentActivity)
                                 // add other types here if need
                                 else -> throw IllegalStateException("Unknown Generic Type ${accm.getClazz()}")
                             }
-
                         }
                     } else {
-
                         Text(
                             text = "${accm.getValue(viewModel.sharedPreferences)}",
                             textAlign = TextAlign.Left,

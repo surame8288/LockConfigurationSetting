@@ -44,6 +44,6 @@ data class LockKick<T : String>(
     }
 
     override fun getClazz(): Class<String> {
-        return this.getClazz()
+        return String::class.java
     }
 }

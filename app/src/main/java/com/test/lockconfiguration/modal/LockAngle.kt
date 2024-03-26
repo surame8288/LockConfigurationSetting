@@ -46,6 +46,6 @@ data class LockAngle<T : Double>(
     }
 
     override fun getClazz(): Class<Double> {
-        return this.getClazz()
+        return Double::class.java
     }
 }
